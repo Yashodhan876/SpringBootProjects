@@ -1,11 +1,10 @@
 package com.example.SpringBootLearning.controller;
 
-import com.example.SpringBootLearning.Maths_Questions;
+import com.example.SpringBootLearning.model.Maths_Questions;
 import com.example.SpringBootLearning.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -17,12 +16,18 @@ public class QusetionsController {
     QuestionService questionService;
 
     @GetMapping("allquestions")
-    public List<Maths_Questions> getAllQuestions(){
+    public ResponseEntity<List<Maths_Questions>> getAllQuestions(){
         return questionService.getAllQuestions();
     }
 
-    @GetMapping("easyquestions")
-    public  List<Maths_Questions> getEasyQuestions(){
-        return questionService.getEasyQuestions();
+    @PostMapping("add")
+    public ResponseEntity<String> addQuestion(@RequestBody Maths_Questions mathsQuestions){
+        return questionService.addQuestion(mathsQuestions);
     }
+
+    @GetMapping("category/{category}")
+    public ResponseEntity<List<Maths_Questions>> getQuestionByCategory(@PathVariable String category){
+        return questionService.getQuestionByCategory(category);
+    }
+
 }
